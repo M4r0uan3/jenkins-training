@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app-k8s
+spec:
+  selector:
+    matchLabels:
+      app: spring-app-k8s
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: spring-app-k8s
+    spec:
+      containers:
+        - name: spring-app-k8s
+          image: na9ani9/k8s-spring-boot-test
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-k8s-svc
+spec:
+  selector:
+    app: spring-app-k8s
+  ports:
+    - protocol: "TCP"
+      port: 8080 
+      targetPort: 8080 
+  type: NodePort 
